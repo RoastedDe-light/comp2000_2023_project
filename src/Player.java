@@ -2,16 +2,12 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class Player extends Merchant{
-    // private String name;
-    // private Inventory inventory;
     private double money;
     private Basket shoppingBasket;
     private Inventory viewOfStoreInventory;
 
     public Player(String playerName, double startingMoney, Inventory startingInventory) {
         super(playerName, startingInventory);
-        // name = playerName;
-        // inventory = startingInventory;
         money = startingMoney;
         shoppingBasket = new Basket();
     }
