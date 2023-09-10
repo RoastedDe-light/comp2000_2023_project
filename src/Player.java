@@ -1,16 +1,18 @@
 import java.util.ArrayList;
+import java.util.Optional;
 
-public class Player {
-    private String name;
-    private Inventory inventory;
+public class Player extends Merchant{
+    // private String name;
+    // private Inventory inventory;
     private double money;
     private Basket shoppingBasket;
     private Inventory viewOfStoreInventory;
 
     public Player(String playerName, double startingMoney, Inventory startingInventory) {
-        name = playerName;
+        super(playerName, startingInventory);
+        // name = playerName;
+        // inventory = startingInventory;
         money = startingMoney;
-        inventory = startingInventory;
         shoppingBasket = new Basket();
     }
 
@@ -20,6 +22,7 @@ public class Player {
      * and the item is purchased. Otherwise, no changes are made.
      * @param item
      */
+    @Override
     public void buy(ItemInterface item) {
         if (Double.valueOf(item.getInventoryTableRow().getColumnThree().trim()) > money) {
             return;
@@ -34,39 +37,40 @@ public class Player {
      * the item is removed and returned.
      * @param itemName
      */
-    public ItemInterface sell(String itemName) {
-        ItemInterface i = removeItem(itemName);
-        if (i != null) {
-            money += Double.valueOf(i.getInventoryTableRow().getColumnThree().trim());
+    @Override
+    public Optional<ItemInterface> sell(String itemName) {
+        Optional<ItemInterface> i = removeItem(itemName);
+        if (i.isPresent()) {
+            money += Double.valueOf(i.get().getInventoryTableRow().getColumnThree().trim());
             return i;
         }
-        return null;
+        return Optional.empty();
     }
 
-    /**
-     * Adds an item to the held Inventory.
-     * @param item
-     */
-    public void addItem(ItemInterface item) {
-        inventory.addOne(item);
-    }
+    // /**
+    //  * Adds an item to the held Inventory.
+    //  * @param item
+    //  */
+    // public void addItem(ItemInterface item) {
+    //     inventory.addOne(item);
+    // }
 
-    /**
-     * Removes and returns an item from the held Inventory that matches
-     * the `itemName` parameter.
-     * @param itemName
-     */
-    public ItemInterface removeItem(String itemName) {
-        return inventory.removeOne(itemName);
-    }
+    // /**
+    //  * Removes and returns an item from the held Inventory that matches
+    //  * the `itemName` parameter.
+    //  * @param itemName
+    //  */
+    // public Optional<ItemInterface> removeItem(String itemName) {
+    //     return inventory.removeOne(itemName);
+    // }
 
-    public Inventory getInventory() {
-        return inventory;
-    }
+    // public Inventory getInventory() {
+    //     return inventory;
+    // }
 
-    public String getName() {
-        return name;
-    }
+    // public String getName() {
+    //     return name;
+    // }
 
     public Basket getShoppingBasket() {
         return shoppingBasket;

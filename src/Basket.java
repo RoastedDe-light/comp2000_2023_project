@@ -1,8 +1,10 @@
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class Basket implements BasketInterface {
     ArrayList<ItemInterface> items;
     ArrayList<Integer> quantities;
+    private static final int NOT_FOUND = -1;
 
     public Basket() {
         items = new ArrayList<>();
@@ -15,7 +17,7 @@ public class Basket implements BasketInterface {
                 return i;
             }
         }
-        return -1;
+        return NOT_FOUND;
     }
 
     public ArrayList<CartTableRow> getRowData() {
@@ -31,14 +33,14 @@ public class Basket implements BasketInterface {
     @Override
     public void setItemQuantity(String itemName, int qty) {
         int index = itemIndex(itemName);
-        if (index != -1) {
+        if (index != NOT_FOUND) {
             quantities.set(index, qty);
         }
     }
 
     public void add(ItemInterface item) {
         int index = itemIndex(item.getInventoryTableRow().getColumnOne());
-        if (index != -1) {
+        if (index != NOT_FOUND) {
             quantities.set(index, quantities.get(index) + 1);
         } else {
             items.add(item);
@@ -50,7 +52,7 @@ public class Basket implements BasketInterface {
     public void remove(String itemName) {
         int index = itemIndex(itemName);
 
-        if (index != -1) {
+        if (index != NOT_FOUND) {
             items.remove(index);
             quantities.remove(index);
         }
@@ -63,12 +65,12 @@ public class Basket implements BasketInterface {
         // Remove/sell items from the `from` parameter
         for (int i = 0; i < items.size() && !rollback; i++) {
             for (int q = 0; q < quantities.get(i); q++) {
-                ItemInterface saleItem = from.sell(items.get(i).getInventoryTableRow().getColumnOne());
-                if (saleItem == null) {
+                Optional<ItemInterface> saleItem = from.sell(items.get(i).getInventoryTableRow().getColumnOne());
+                if (saleItem.isEmpty()) {
                     rollback = true;
                     break;  // Trigger transaction rollback
                 }
-                transactionItems.add(saleItem);
+                transactionItems.add(saleItem.get());
             }
         }
 
@@ -90,12 +92,12 @@ public class Basket implements BasketInterface {
         // Remove/sell items from the `from` parameter
         for (int i = 0; i < items.size() && !rollback; i++) {
             for (int q = 0; q < quantities.get(i); q++) {
-                ItemInterface saleItem = from.sell(items.get(i).getInventoryTableRow().getColumnOne());
-                if (saleItem == null) {
+                Optional<ItemInterface> saleItem = from.sell(items.get(i).getInventoryTableRow().getColumnOne());
+                if (saleItem.isEmpty()) {
                     rollback = true;
                     break;  // Trigger transaction rollback
                 }
-                transactionItems.add(saleItem);
+                transactionItems.add(saleItem.get());
             }
         }
         if (rollback) {
