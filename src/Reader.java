@@ -99,7 +99,10 @@ public class Reader {
 
         for (int i = 1; i < data.length; i += 5) {
             for (int qty = Integer.valueOf(data[i].trim()); qty > 0; qty--) {
-                items.add(ItemReader.readStartingItem(Arrays.copyOfRange(data, i + 1, i + 5)));
+                ItemInterface curItem = ItemReader.readStartingItem(Arrays.copyOfRange(data, i + 1, i + 5));
+                if (curItem != null) {
+                    items.add(curItem);
+                }
             }
         }
 

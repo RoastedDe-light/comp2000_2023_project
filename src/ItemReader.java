@@ -23,14 +23,20 @@ public class ItemReader {
             expiration = Integer.valueOf(expiry);
         }
         if (name.equals("Tomato")) {
-            return new Tomato(expiration);
+            return new Tomato(name, description, value, expiration).item;
         } else if (name.equals("Rock")) {
-            return new Rock(expiration);
+            return new Rock(name, description, value, expiration).item;
         } else if (name.equals("Wand")) {
-            return new Wand(expiration);
+            return new Wand(name, description, value, expiration).item;
         } else {
             System.err.println("Bad Item read in ItemReader");
             System.exit(0);
+            /*
+             * Tried to change return type to Optional<ItemInterface> to deal
+             * with null values but Items stop being added to the cart so added
+             * a null check for every call of ItemReader.readingStartingItem instead
+             */
+            
             return null;
         }
     }
