@@ -47,31 +47,6 @@ public class Player extends Merchant{
         return Optional.empty();
     }
 
-    // /**
-    //  * Adds an item to the held Inventory.
-    //  * @param item
-    //  */
-    // public void addItem(ItemInterface item) {
-    //     inventory.addOne(item);
-    // }
-
-    // /**
-    //  * Removes and returns an item from the held Inventory that matches
-    //  * the `itemName` parameter.
-    //  * @param itemName
-    //  */
-    // public Optional<ItemInterface> removeItem(String itemName) {
-    //     return inventory.removeOne(itemName);
-    // }
-
-    // public Inventory getInventory() {
-    //     return inventory;
-    // }
-
-    // public String getName() {
-    //     return name;
-    // }
-
     public Basket getShoppingBasket() {
         return shoppingBasket;
     }
